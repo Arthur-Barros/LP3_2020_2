@@ -61,3 +61,21 @@ routerUsuario.get("/lancamentos/entradas/:id", async (req, res) => {
    
 
 });
+
+/**
+ * Serviço para recuperar os lançamentos negativos
+ */
+
+routerUsuario.get("/lancamentos/gastos/:id", async (req, res) => {
+    const id  = parseInt(req.params.id);
+
+    const lancamentos =  await usuarioCtrl.recuperarValorNegativo(id);
+
+    if(lancamentos){
+        res.json(lancamentos);
+    }else{
+        res.status(404).json({mensagem: "Lançamento negativo não encontrado"})
+    }
+   
+
+});

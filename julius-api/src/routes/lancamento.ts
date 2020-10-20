@@ -25,6 +25,10 @@ routerLancamento.post("/", async (req, res) => {
 
 });
 
+/**
+ * Atualizar um lancamento
+ */
+
 routerLancamento.put("/:id", async (req,res) => {
     const id  = parseInt(req.params.id);
 
@@ -43,6 +47,10 @@ routerLancamento.put("/:id", async (req,res) => {
 
 });
 
+
+/**
+ * Deletar um lançamento
+ */
 
 routerLancamento.delete("/:id", async (req,res) =>{
     const id  = parseInt(req.params.id);

@@ -1,6 +1,7 @@
 import { Usuario } from "../entity/Usuario";
-import { getManager } from "typeorm";
+import { getManager, MoreThanOrEqual, LessThan} from "typeorm";
 import { Lancamento } from "../entity/Lancamento";
+
 
 export class UsuarioController{
 
@@ -29,25 +30,36 @@ export class UsuarioController{
 
 
     async recuperarValorPositivo(id: number){
-        const usuario = await getManager().findOne(Usuario, id, {
-            relations: ["lancamentos"]
-        });
-        
-        let lancamentoPositvo;
-        const todosLancamentos =  usuario.lancamentos;
 
-        if(todosLancamentos){
-            todosLancamentos.forEach(lancamento =>{
-                if(lancamento.valor > 0){
-                    lancamentoPositvo = lancamento;
-                }
-                
-            });
-            return lancamentoPositvo;
-        }else{
-            return false;
-        }
-        
+        const lancamentoPositivo = await getManager().find( Lancamento, {
+            where:{
+                usuario: id,
+                valor: MoreThanOrEqual(0),
+            }
+            
+        });
+    
+        return lancamentoPositivo
+
+    
+
+    }
+
+
+    async recuperarValorNegativo(id: number){
+
+        const lancamentoNegativo = await getManager().find( Lancamento, {
+            where:{
+                usuario: id,
+                valor: LessThan(0),
+            }
+            
+        });
+    
+        return lancamentoNegativo
+
+
+
     }
 
 }
